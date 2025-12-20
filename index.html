@@ -65,101 +65,54 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>お知らせ一覧</title>
-<style>
-body {
-  font-family: "MS UI Gothic", sans-serif;
-  background-color: #f8f8f8;
-  padding: 20px;
-}
+  <meta charset="UTF-8">
+  <title>お知らせ</title>
 
-.notice-board {
-  background-color: #ffffff;
-  border: 1px solid #888;
-  padding: 20px;
-  width: 400px;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-}
-
-.notice {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.notice h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  color: #000080; /* XP風の濃い青 */
-}
-
-.notice p {
-  margin: 0;
-}
-</style>
+  <style>
+    .notice {
+      background: #f7f7f7;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    .notice h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: #000;
+    }
+    .notice p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
 </head>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>利用者用 お知らせ一覧</title>
-<style>
-body {
-  font-family: "MS UI Gothic", sans-serif;
-  background-color: #f8f8f8;
-  padding: 20px;
-}
 
-/* お知らせ全体を囲む枠 */
-.notice-board {
-  border: 2px solid #000; /* 黒の実線枠 */
-  padding: 20px;
-  background-color: #fff;
-  width: 500px;
-  left:10px
-  margin: auto;
-}
-
-/* お知らせ一つ一つを灰色の四角で表示 */
-.notice {
-  background-color: #e0e0e0; /* 灰色塗りつぶし */
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 4px; /* 角を少し丸める */
-}
-
-.notice h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  color: #000080; /* タイトルは濃い青で強調 */
-}
-
-.notice p {
-  margin: 0;
-}
-</style>
-</head>
 <body>
-<h2>お知らせ</h2>
-<div id="notice-board" class="notice-board"></div>
-const board = document.getElementById('notice-board');
-const notices = JSON.parse(localStorage.getItem('notices') || '[]');
+  <h2>お知らせ</h2>
+  <div id="notice-board"></div>
 
-if (notices.length === 0) {
-  board.innerHTML = '<p>現在お知らせはありません。</p>';
-} else {
-  notices.forEach(n => {
-    const div = document.createElement('div');
-    div.classList.add('notice'); // 既定の固定スタイルを適用
-    div.innerHTML = `<h3>${n.title}</h3><p>${n.content}</p>`;
-    board.appendChild(div);
-  });
-}
+  <script>
+    const board = document.getElementById('notice-board');
+    const notices = JSON.parse(localStorage.getItem('notices') || '[]');
 
-<script>
+    if (notices.length === 0) {
+      board.innerHTML = '<p>現在お知らせはありません。</p>';
+    } else {
+      // ✅ 新しい順で表示（ここがポイント）
+      notices.slice().reverse().forEach(n => {
+        const div = document.createElement('div');
+        div.classList.add('notice');
+        div.innerHTML = `
+          <h3>${n.title}</h3>
+          <p>${n.content}</p>
+          <small>${n.date}</small>
+        `;
+        board.appendChild(div);
+      });
+    }
+  </script>
 
-</script>
 </body>
 </html>
 
