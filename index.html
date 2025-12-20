@@ -145,44 +145,22 @@ body {
 <div id="notice-board" class="notice-board"></div>
 
 <script>
-  const board = document.getElementById('notice-board');
-  const notices = JSON.parse(localStorage.getItem('notices') || '[]');
+ if (notices.length === 0) {
+  board.innerHTML = '<p>現在お知らせはありません。</p>';
+} else {
+  // ここを追加：新しい順に並べ替えてから表示
+  notices.slice().reverse().forEach(n => {
+    const div = document.createElement('div');
+    div.classList.add('notice');
+    div.innerHTML = `<h3>${n.title}</h3><p>${n.content}</p>`;
+    board.appendChild(div);
+  });
+}
 
-  if (notices.length === 0) {
-    board.innerHTML = "<p>現在お知らせはありません。</p>";
-  } else {
-    notices.forEach(n => {
-      const div = document.createElement('div');
-      div.classList.add('notice'); // 灰色の四角スタイルを適用
-      div.innerHTML = `<h3>${n.title}</h3><p>${n.content}</p>`;
-      board.appendChild(div);
-    });
-  }
 </script>
 </body>
 </html>
-  ここから
-  function renderNotices() {
-  board.innerHTML = "";
-  const notices = JSON.parse(localStorage.getItem('notices') || '[]');
 
-  if (notices.length === 0) {
-    board.innerHTML = "<p>現在お知らせはありません。</p>";
-  } else {
-    // ✅ 新しい順に表示
-    notices.slice().reverse().forEach(n => {
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <h3>${n.title}</h3>
-        <p>${n.content}</p>
-        <small>送信日: ${n.date}</small><br>
-        <button onclick="deleteNotice(${n.id})">削除</button>
-      `;
-      board.appendChild(div);
-    });
-  }
-}
-ここまで
 <h2>意見ゾーン</h2>
 <div class="opinion-zone">
   <form id="opinion-form">
