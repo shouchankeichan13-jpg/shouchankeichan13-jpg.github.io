@@ -161,6 +161,28 @@ body {
 </script>
 </body>
 </html>
+  ここから
+  function renderNotices() {
+  board.innerHTML = "";
+  const notices = JSON.parse(localStorage.getItem('notices') || '[]');
+
+  if (notices.length === 0) {
+    board.innerHTML = "<p>現在お知らせはありません。</p>";
+  } else {
+    // ✅ 新しい順に表示
+    notices.slice().reverse().forEach(n => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <h3>${n.title}</h3>
+        <p>${n.content}</p>
+        <small>送信日: ${n.date}</small><br>
+        <button onclick="deleteNotice(${n.id})">削除</button>
+      `;
+      board.appendChild(div);
+    });
+  }
+}
+ここまで
 <h2>意見ゾーン</h2>
 <div class="opinion-zone">
   <form id="opinion-form">
