@@ -143,19 +143,21 @@ body {
 <body>
 <h2>お知らせ</h2>
 <div id="notice-board" class="notice-board"></div>
+const board = document.getElementById('notice-board');
+const notices = JSON.parse(localStorage.getItem('notices') || '[]');
 
-<script>
- if (notices.length === 0) {
+if (notices.length === 0) {
   board.innerHTML = '<p>現在お知らせはありません。</p>';
 } else {
-  // ここを追加：新しい順に並べ替えてから表示
-  notices.slice().reverse().forEach(n => {
+  notices.forEach(n => {
     const div = document.createElement('div');
-    div.classList.add('notice');
+    div.classList.add('notice'); // 既定の固定スタイルを適用
     div.innerHTML = `<h3>${n.title}</h3><p>${n.content}</p>`;
     board.appendChild(div);
   });
 }
+
+<script>
 
 </script>
 </body>
